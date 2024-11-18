@@ -1,0 +1,52 @@
+.login-logo {
+    margin: 30px;
+}
+
+.login-logo__text {
+    font-size: 20px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+}
+
+.login-form__input {
+    width: 27.8%;
+    min-width: 400px;
+    min-height: 40px;
+    padding: auto;
+    margin: auto;
+    font-size: 14px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+}
+
+.login-form button {
+    width: 27.8%;
+    min-width: 400px;
+    min-height: 40px;
+    padding: auto;
+    margin: auto;
+    font-size: 14px;
+    color: #ffffff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.login-form__text {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666;
+}
+
+.login-form__register {
+    font-size: 14px;
+    color: #007bff;
+    text-decoration: none;
+}

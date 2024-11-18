@@ -16,6 +16,8 @@
             <div class="header-logo">
                 <h1>Atte</h1>
             </div>
+
+            @if (Auth::check())
             <div class="header-nav">
                 <div class="nav-parts">
                     <a class="nav-parts__link" href="/">ホーム</a>
@@ -24,12 +26,15 @@
                     <a class="nav-parts__link" href="/attendance">日付一覧</a>
                 </div>
                 <form class="nav-parts" action="/logout" method="post">
+                    @csrf
                     <button type="submit"
                         style="background: none; border: none; font-weight: bold; color: black; cursor: pointer;">
                         ログアウト
                     </button>
                 </form>
             </div>
+            @endif
+            
         </header>
         <main>
             @yield('content')

@@ -1,0 +1,36 @@
+.greeting {
+    margin: 50px;
+}
+
+.greeting__text {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.button-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    width: 72.9%;
+    min-width: 1050px;
+    min-height: 450px;
+    margin: auto;
+}
+
+.stamp-button {
+    background-color: white;
+    color: black;
+    min-width: 500px;
+    min-height: 200px;
+    padding: 60px 0;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    align-self: center;
+    border: none;
+    border-radius: 5px;
+}
+
+.stamp-button.inactive {
+    color: #d0d0d0;
+}

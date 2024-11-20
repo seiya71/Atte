@@ -9,5 +9,5 @@ class Attendance extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['start_time', 'end_time', 'date'];
+    protected $fillable = ['user_id', 'start_time', 'end_time', 'date'];
 }

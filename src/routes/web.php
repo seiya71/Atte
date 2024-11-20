@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AttendanceController;
+use App\Models\Attendance;
+use App\Models\BreakTime;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +19,8 @@ use App\Http\Controllers\AttendanceController;
 Route::middleware('auth')->group(function () {
     Route::get('/', [AttendanceController::class, 'index']);
 });
+
+Route::post('/work/start', [AttendanceController::class, 'startWork'])->name('work.start');
+Route::post('/work/end/{attendanceId}', [AttendanceController::class, 'endWork'])->name('work.end');
+Route::post('/break/start/{attendanceId}', [AttendanceController::class, 'startBreak'])->name('break.start');
+Route::post('/break/end/{breakId}', [AttendanceController::class, 'endBreak'])->name('break.end');

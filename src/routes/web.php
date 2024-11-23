@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AttendanceController;
 use App\Models\Attendance;
 use App\Models\BreakTime;
+use Carbon\Carbon;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,5 @@ Route::post('/work/start', [AttendanceController::class, 'startWork'])->name('wo
 Route::post('/work/end/{attendanceId}', [AttendanceController::class, 'endWork'])->name('work.end');
 Route::post('/break/start/{attendanceId}', [AttendanceController::class, 'startBreak'])->name('break.start');
 Route::post('/break/end/{breakId}', [AttendanceController::class, 'endBreak'])->name('break.end');
+
+Route::get('/attendance/{date?}', [AttendanceController::class, 'show'])->name('attendance.show');

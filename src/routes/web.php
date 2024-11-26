@@ -19,7 +19,7 @@ use Carbon\Carbon;
 */
 
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [AttendanceController::class, 'index']);
 });
 
@@ -29,12 +29,3 @@ Route::post('/break/start/{attendanceId}', [AttendanceController::class, 'startB
 Route::post('/break/end/{breakId}', [AttendanceController::class, 'endBreak'])->name('break.end');
 
 Route::get('/attendance/{date?}', [AttendanceController::class, 'show'])->name('attendance.show');
-
-Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-});
-
-Route::get('/email/verify/{id}/{hash}', function ($id, $hash) {
-    Auth::loginUsingId($id);
-    return redirect('/');
-})->middleware(['auth', 'signed'])->name('verification.verify');

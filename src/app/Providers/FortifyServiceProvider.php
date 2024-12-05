@@ -30,7 +30,6 @@ class FortifyServiceProvider extends ServiceProvider
     {
         Fortify::createUsersUsing(CreateNewUser::class);
 
-        //GETメソッドで/registerにアクセスしたときに表示するviewファイル
         Fortify::registerView(function () {
             return view('auth.register');
         });
@@ -38,14 +37,11 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::redirects('register', '/register');
 
         Fortify::verifyEmailView(function () {
-            return view('auth.verify-email'); // あなたのビューに合わせてパスを変更
+            return view('auth.verify-email');
         });
-
-        //GETメソッドで/loginにアクセスしたときに表示するviewファイル
         Fortify::loginView(function () {
             return view('auth.login');
         });
-        //login処理の実行回数を1分あたり10回までに制限
         RateLimiter::for('login', function (Request $request) {
             $email = (string) $request->email;
 

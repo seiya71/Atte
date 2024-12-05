@@ -17,13 +17,11 @@ class BreakTimesTableSeeder extends Seeder
     public function run()
     {
         $faker = \Faker\Factory::create();
-
-        // attendancesテーブルのデータを取得
         $attendances = DB::table('attendances')->get();
 
         foreach ($attendances as $attendance) {
             $breakStart = Carbon::parse($attendance->start_time)->addHours($faker->numberBetween(2, 4));
-            $breakEnd = (clone $breakStart)->addMinutes($faker->numberBetween(15, 60)); // 15～60分の休憩
+            $breakEnd = (clone $breakStart)->addMinutes($faker->numberBetween(15, 60));
 
             DB::table('break_times')->insert([
                 'attendance_id' => $attendance->id,

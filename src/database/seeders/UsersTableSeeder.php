@@ -22,7 +22,7 @@ class UsersTableSeeder extends Seeder
             DB::table('users')->insert([
                 'name' => $faker->lastName . $faker->firstName,
                 'email' => $faker->unique()->safeEmail,
-                'password' => Hash::make('12345678'), // 共通の仮パスワード
+                'password' => Hash::make('12345678'),
             ]);
         }
     }

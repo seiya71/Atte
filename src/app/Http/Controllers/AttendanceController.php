@@ -95,24 +95,20 @@ class AttendanceController extends Controller
     {
         $date = $date ?: Carbon::now()->format('Y-m-d');
 
-        // Attendancesのデータを取得（ページネーションを適用）
         $attendances = Attendance::where('date', $date)
-            ->with('user', 'breakTimes') // 関連するデータをロード
-            ->paginate(5); // ページネーションで1ページ5件
+            ->with('user', 'breakTimes')
+            ->paginate(5);
 
-        // 加工処理
         $processedData = $attendances->map(function ($attendance) {
             $breakTimeInSeconds = $attendance->breakTimes->reduce(function ($carry, $break) {
                 $start = Carbon::parse($break->break_start);
                 $end = Carbon::parse($break->break_end);
-                return $carry + $start->diffInSeconds($end); // 秒単位で計算
+                return $carry + $start->diffInSeconds($end);
             }, 0);
 
             $start = Carbon::parse($attendance->start_time);
             $end = Carbon::parse($attendance->end_time);
-            $workTimeInSeconds = $start->diffInSeconds($end) - $breakTimeInSeconds; // 秒単位で計算
-
-            // 秒単位の値をH:i:s形式にフォーマット
+            $workTimeInSeconds = $start->diffInSeconds($end) - $breakTimeInSeconds;
             $formattedWorkTime = gmdate('H:i:s', $workTimeInSeconds);
             $formattedBreakTime = gmdate('H:i:s', $breakTimeInSeconds);
 
@@ -124,8 +120,6 @@ class AttendanceController extends Controller
                 'work_time' => $formattedWorkTime,
             ];
         });
-
-        // ページネーションと加工済みデータをビューに渡す
         return view('attendance', compact('processedData', 'date', 'attendances'));
     }
 
@@ -138,50 +132,34 @@ class AttendanceController extends Controller
 
     public function attendance(Request $request, $id)
     {
-        // 従業員情報を取得
         $employee = User::findOrFail($id);
-
-        // 年と月の取得（URLパラメータやデフォルト値から）
         $year = $request->input('year', now()->year);
         $month = $request->input('month', now()->month);
-
-        // 勤務データの取得
         $attendances = Attendance::where('user_id', $id)
             ->whereYear('date', $year)
             ->whereMonth('date', $month)
             ->orderBy('date')
             ->get();
-
-        // 月の日数を計算
         $daysInMonth = Carbon::createFromDate($year, $month)->daysInMonth;
-
-        // 日付ごとの勤務状況データを構築
         $attendanceData = [];
         for ($day = 1; $day <= $daysInMonth; $day++) {
             $date = Carbon::createFromDate($year, $month, $day)->format('Y-m-d');
             $attendance = $attendances->firstWhere('date', $date);
-
-            // 休憩時間の計算
             $breakTimeInSeconds = 0;
             if ($attendance) {
                 $breakTimeInSeconds = $attendance->breakTimes->reduce(function ($carry, $break) {
                     $start = Carbon::parse($break->break_start);
                     $end = Carbon::parse($break->break_end);
-                    return $carry + $start->diffInSeconds($end); // 秒単位で計算
+                    return $carry + $start->diffInSeconds($end);
                 }, 0);
             }
-
-            // 出勤時間と退勤時間の計算
             $start = $attendance ? Carbon::parse($attendance->start_time) : null;
             $end = $attendance ? Carbon::parse($attendance->end_time) : null;
-
-            // 労働時間と休憩時間の計算
             if ($start && $end) {
-                $workTimeInSeconds = $start->diffInSeconds($end) - $breakTimeInSeconds; // 秒単位で計算
+                $workTimeInSeconds = $start->diffInSeconds($end) - $breakTimeInSeconds;
                 $formattedWorkTime = gmdate('H:i:s', $workTimeInSeconds);
                 $formattedBreakTime = gmdate('H:i:s', $breakTimeInSeconds);
             } else {
-                // 出勤時間がない場合（休日）
                 $formattedWorkTime = '休日';
                 $formattedBreakTime = 'なし';
             }
@@ -195,10 +173,8 @@ class AttendanceController extends Controller
                 'work_time' => $formattedWorkTime,
             ];
         }
-
-        // ビューにデータを渡す
         return view('user-attendance', [
-            'user' => $employee, // 従業員情報を渡す
+            'user' => $employee,
             'year' => $year,
             'month' => $month,
             'attendanceData' => $attendanceData,

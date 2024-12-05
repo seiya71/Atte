@@ -40,8 +40,3 @@ services:
             - mysql
         ports:
             - 8080:80
-    mailpit:
-        image: 'axllent/mailpit'
-        ports:
-            - '${FORWARD_MAILPIT_PORT:-1025}:1025'
-            - '${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025'

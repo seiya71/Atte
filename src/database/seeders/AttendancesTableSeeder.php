@@ -19,13 +19,10 @@ class AttendancesTableSeeder extends Seeder
     {
         $faker = \Faker\Factory::create('ja_JP');
 
-        foreach (range(1, 100) as $userId) { // 100人分のデータを生成
-            foreach (range(1, 30) as $day) { // 過去30日分のデータを生成
-                // 勤務開始と終了時刻を生成
+        foreach (range(1, 100) as $userId) {
+            foreach (range(1, 30) as $day) {
                 $start = Carbon::create(2024, 11, $day, $faker->numberBetween(8, 10), $faker->numberBetween(0, 59));
                 $end = $start->copy()->addHours($faker->numberBetween(7, 9))->addMinutes($faker->numberBetween(0, 59));
-
-                // データを作成
                 Attendance::create([
                     'user_id' => $userId,
                     'date' => $start->format('Y-m-d'),

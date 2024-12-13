@@ -9,6 +9,9 @@ use App\Models\Attendance;
 use App\Models\BreakTime;
 use Carbon\Carbon;
 
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
+
 class AttendanceController extends Controller
 {
     public function index()

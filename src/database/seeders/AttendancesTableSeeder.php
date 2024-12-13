@@ -20,9 +20,16 @@ class AttendancesTableSeeder extends Seeder
         $faker = \Faker\Factory::create('ja_JP');
 
         foreach (range(1, 100) as $userId) {
-            foreach (range(1, 30) as $day) {
-                $start = Carbon::create(2024, 11, $day, $faker->numberBetween(8, 10), $faker->numberBetween(0, 59));
+            $startDate = Carbon::create(2024, 6, 1);
+            foreach (range(1, 180) as $day) {
+                if ($faker->boolean(28)) {
+                    continue;
+                }
+
+                $currentDate = $startDate->copy()->addDays($day - 1);
+                $start = $currentDate->setTime($faker->numberBetween(8, 10), $faker->numberBetween(0, 59));
                 $end = $start->copy()->addHours($faker->numberBetween(7, 9))->addMinutes($faker->numberBetween(0, 59));
+
                 Attendance::create([
                     'user_id' => $userId,
                     'date' => $start->format('Y-m-d'),

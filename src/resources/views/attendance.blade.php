@@ -35,7 +35,6 @@
 </table>
 
 <div class="pagination">
-    <!-- 前のページ -->
     <a href="{{ $attendances->previousPageUrl() ?? '#' }}"
         class="prev {{ $attendances->onFirstPage() ? 'disabled' : '' }}">&lt;</a>
 
@@ -45,7 +44,6 @@
     @endphp
 
     @if ($current <= 10)
-        <!-- 前半の表示 -->
         @foreach (range(1, 10) as $page)
             <a href="{{ $attendances->url($page) }}" class="{{ $page == $current ? 'active' : '' }}">
                 {{ $page }}
@@ -53,7 +51,6 @@
         @endforeach
 
         @if ($last > 10)
-            <!-- 「...」を11ページへのリンクにする -->
             <a href="{{ $attendances->url(11) }}" class="dots">...</a>
             <a href="{{ $attendances->url($last - 1) }}" class="{{ $current == $last - 1 ? 'active' : '' }}">
                 {{ $last - 1 }}
@@ -64,10 +61,8 @@
         @endif
 
     @else
-        <!-- 後半の表示 -->
         <a href="{{ $attendances->url(1) }}" class="{{ $current == 1 ? 'active' : '' }}">1</a>
         <a href="{{ $attendances->url(2) }}" class="{{ $current == 2 ? 'active' : '' }}">2</a>
-        <!-- 「...」を10ページへのリンクにする -->
         <a href="{{ $attendances->url(10) }}" class="dots">...</a>
 
         @foreach (range(11, $last) as $page)
@@ -76,8 +71,6 @@
             </a>
         @endforeach
     @endif
-
-    <!-- 次のページ -->
     <a href="{{ $attendances->nextPageUrl() ?? '#' }}"
         class="next {{ !$attendances->hasMorePages() ? 'disabled' : '' }}">&gt;</a>
 </div>
